@@ -33,6 +33,8 @@ module Eleventh
     bit1 :_from_ds
     bit1 :_to_ds
 
+    rest :payload
+
     [:order, :wep, :more_data, :power_mgt, :retry, :more_frag, :from_ds, :to_ds].each do |flag|
       define_method("#{flag}?") do
         send("_#{flag}").nonzero?
@@ -58,7 +60,12 @@ module Eleventh
     class << self
       def tag_reader(name, index)
         define_method name do
-          tags.select { |t| t.number.to_i == index }.first.val.snapshot
+          tag = tags.select { |t| t.number.to_i == index }.first
+          if tag.present?
+            tag.val.snapshot
+          else
+            nil
+          end
         end
       end
     end
@@ -70,7 +77,6 @@ module Eleventh
 
   class Frame < BinData::Record
     endian :big
-    control_frame :control_frame
     uint16 :duration
     mac_addr :addr1
     mac_addr :addr2
@@ -78,9 +84,5 @@ module Eleventh
     bit8 :fragment_number
     bit8 :sequence_number
     rest :payload
-
-    def initialize_instance
-      super
-    end
   end
 end
