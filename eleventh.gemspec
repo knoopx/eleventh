@@ -7,7 +7,7 @@ require "eleventh/version"
 Gem::Specification.new do |s|
   s.name = "eleventh"
   s.version = Eleventh::VERSION
-  s.authors = ["Víctor Martínez"]
+  s.authors = ["Víctor Martínez"]
   s.email = ["knoopx@gmail.com"]
   s.homepage = "http://github.com/knoopx/eleventh"
   s.summary = %q{An automated, all-in-one dictionary generator and WEP cracker}
